@@ -12,7 +12,7 @@ component-definition:
         links:
           - href: https://defenseunicorns.com
             rel: website
-  components:
+
     - uuid: b2fae6f6-aaa1-4929-b453-3c64398a054e
       type: software
       title: NeuVector
@@ -23,7 +23,6 @@ component-definition:
         - role-id: provider
           party-uuids:
             - f3cf70f8-ba44-4e55-9ea3-389ef24847d3
-      control-implementations:
         - uuid: d2afb4c4-2cd8-5305-a6cc-d1bc7b388d0c
           source: https://raw.githubusercontent.com/GSA/fedramp-automation/93ca0e20ff5e54fc04140613476fba80f08e3c7d/dist/content/rev5/baselines/json/FedRAMP_rev5_HIGH-baseline-resolved-profile_catalog.json
           description: Controls implemented by NeuVector for inheritance by applications
