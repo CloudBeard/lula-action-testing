@@ -27,9 +27,10 @@ runs:
 
         # Lint the file with Lula
           echo "Linting $target"
-          lula tools lint -f "$target"
+          lula tools lint -f "$target" || {
               echo "Linting failed for $target"
               lint_errors=$((lint_errors + 1))
+          }
         done
 
         # Check if there were any lint errors
