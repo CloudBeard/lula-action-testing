@@ -1,0 +1,46 @@
+name: lula-lint
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**/*oscal-component.yaml"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repo and setup the tooling for this job
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        # with:
+        #   ref: ${{ github.head_ref }}
+
+      - name: Get modified OSCAL files
+        id: get-modified-files
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pattern = '**/*oscal-component.yaml';
+            const { data } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            const changedFiles = data.filter(file => file.filename.match(pattern)).map(file => file.filename);
+            return changedFiles.join(' ');
+          result-encoding: string
+
+      # Runs the Lula Setup Action
+      - name: Lula Setup
+        uses: ./.github/actions/lula-setup
+
+      # Runs Lula Lint
+      - name: Lula Lint DUBBD
+        uses: ./.github/actions/lula-lint
+        with:
+          oscal-target: ${{ steps.get-modified-files.outputs.result }}
